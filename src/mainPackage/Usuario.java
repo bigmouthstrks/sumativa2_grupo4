@@ -2,6 +2,7 @@ package mainPackage;
 
 import java.util.*;
 
+
 public class Usuario {
 	String nombreCompleto;
 	String rut;
