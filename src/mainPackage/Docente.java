@@ -1,11 +1,14 @@
 package mainPackage;
 
 public class Docente extends Usuario {
-	String profesion;
-	AcademicGrade grado;
+	private AcademicGrade grado;
 
-	protected Docente(String nombreCompleto, String rut, Gender genero, String prestamo) {
-		super(nombreCompleto, rut, genero, prestamo);
-		
+	public Docente(String nombre, String rut, Gender genero, String carrera, String prestamo, AcademicGrade grado) {
+		super(nombre, rut, genero, carrera, prestamo);
+		this.grado = grado;
+	}
+	
+	public AcademicGrade getGrado() {
+		return grado;
 	}
 }
