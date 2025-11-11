@@ -18,10 +18,16 @@ public class Usuario {
 	}
 
 	/* Función que devuelve una instancia de la clase Usuario si los parámetros son correctos, si no, devuelve null */
-	public static void create(String rut, String nombreCompleto, Gender genero, String carrera, String prestamo) {
-		if(isValidRut(rut) && isValidLoan(prestamo)) {
-			Usuario user = new Usuario(rut, nombreCompleto, genero, carrera, prestamo);
-			user.save();
+	public static Usuario create(String rut, String nombreCompleto, Gender genero, String carrera, String prestamo) {
+		Usuario user = new Usuario(rut, nombreCompleto, genero, carrera, prestamo);
+		
+		if(!Utils.alreadyExists(File.USUARIOS, user.rut)) {
+			String userAsString = user.toString();
+			Utils.saveToFile(File.USUARIOS, userAsString);
+			
+			return user;
+		} else {
+			return null;
 		}
 	}
 	
@@ -69,14 +75,6 @@ public class Usuario {
     public String toString() {
         return rut + ";" + nombreCompleto + ";" + genero + ";" + carrera + ";" + prestamo;
     }
-
-    /* Private methods */
-	private void save() {
-		if(!Utils.alreadyExists(File.USUARIOS, this.rut)) {
-			String userAsString = this.toString();
-			Utils.saveToFile(File.USUARIOS, userAsString);
-		}
-	}
 	
     private static ArrayList<Usuario> fromText(String text) {
         ArrayList<Usuario> list = new ArrayList<>();
@@ -104,7 +102,7 @@ public class Usuario {
 	}
 	
 	/* Función que devuelve true si el rut pasado como argumento es válido y false si no lo es. */
-	protected static boolean isValidRut(String rut) {
+	public static boolean isValidRut(String rut) {
 		rut = rut.replace(".", "");
 		rut = rut.toUpperCase();
 
