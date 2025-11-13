@@ -1,2 +1,3 @@
 
-19617271-8;Benjamin Andres Caceres Ramirez;F;Informatica;N
+19617271-8;Benjamin Caceres;F;N;Informatica;ESTUDIANTE
+17996521-6;Matias Caceres;F;N;Trabajador Social;DOCTOR;DOCENTE

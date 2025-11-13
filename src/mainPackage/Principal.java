@@ -87,14 +87,6 @@ public class Principal {
                     	genero = sc.nextLine().toUpperCase();
                 	}
                 	
-                	System.out.println("Ingrese su carrera: ");
-                	String carrera = sc.nextLine();
-                	while(carrera.isEmpty()) {
-                		System.out.println("Por favor ingrese una carrera válida (diferente a vacío).");
-                		System.out.println("Ingrese su carrera: ");
-                		nombreCompleto = sc.nextLine();
-                	}
-                	
                 	System.out.println("¿Tiene préstamo? (ingrese 'S' para si o 'N' para no) ");
                 	String prestamo = sc.nextLine().toUpperCase();
                 	while(!prestamo.equals("S") && !prestamo.equals("N")) {
@@ -102,7 +94,7 @@ public class Principal {
                 		System.out.println("¿Tiene préstamo? (ingrese 's' para si o 'n' para no) ");
                 		prestamo = sc.nextLine().toUpperCase();
                 	}
-                	
+                	                	
                 	String isbn;
                 	if(prestamo.equals("S")) {
                 		System.out.println("Ingrese ISBN del libro prestado: ");
@@ -115,21 +107,71 @@ public class Principal {
                 		isbn = "0";
                 	}
                 	
+                	System.out.println("Tipo de usuario (ingrese 'D' para Docente y 'E' para Estudiante)");
+                	String tipo = sc.nextLine().toUpperCase();
+                	while(!tipo.equals("D") && !tipo.equals("E")) {
+                		System.out.println("Por favor ingrese una opción válida.");
+                		System.out.println("Tipo de usuario (ingrese 'D' para Docente y 'E' para Estudiante)");
+                		tipo = sc.nextLine().toUpperCase();
+                	}
+                	
                 	Gender gender = genero == "M" ? Gender.M : Gender.F;
-                	
-                	Usuario newUser = Usuario.create(rut, nombreCompleto, gender, carrera, isbn);
-                	
-                	if(newUser != null) {
-                		System.out.println("¡Usuario creado exitosamente!");
-                		System.out.println(newUser.toString());
+                	if(tipo.equals("E")) {
+                		System.out.println("Ingrese su carrera: ");
+                    	String carrera = sc.nextLine();
+                    	while(carrera.isEmpty()) {
+                    		System.out.println("Por favor ingrese una carrera válida (diferente a vacío).");
+                    		System.out.println("Ingrese su carrera: ");
+                    		carrera = sc.nextLine();
+                    	}
+                    	
+                    	Estudiante newEstudiante = Estudiante.create(rut, nombreCompleto, gender, prestamo, carrera);
+                    	
+                    	if(newEstudiante != null) {
+                    		System.out.println("¡Estudiante creado exitosamente!");
+                    		System.out.println(newEstudiante.toString());
+                    	} else {
+                    		System.out.println("El estudiante ya existe. No se agregaron nuevos estudiantes.");
+                    	}
                 	} else {
-                		System.out.println("El usuario ya existe. No se agregaron nuevos usuarios.");
+                		System.out.println("Ingrese su profesión: ");
+                    	String profesion = sc.nextLine();
+                    	while(profesion.isEmpty()) {
+                    		System.out.println("Por favor ingrese una profesión válida (diferente a vacío).");
+                    		System.out.println("Ingrese su profesión: ");
+                    		profesion = sc.nextLine();
+                    	}
+                    	
+                    	System.out.println("Ingrese su grado académico (ingrese 'D' para Doctor y 'M' para Magister)");
+                    	String grado = sc.nextLine().toUpperCase();
+                    	while(!grado.equals("D") && !grado.equals("M")) {
+                    		System.out.println("Por favor ingrese una opción válida.");
+                    		System.out.println("Ingrese su grado académico (ingrese 'D' para Doctor y 'M' para Magister)");
+                    		grado = sc.nextLine().toUpperCase();
+                    	}
+                    	
+                    	AcademicGrade gradoAcademico = null;
+                    	if (grado.equals("D")) {
+                    		gradoAcademico = AcademicGrade.DOCTOR;
+                    	} else if (grado.equals("M")) {
+                    		gradoAcademico = AcademicGrade.MAGISTER;
+                    	} else {
+                    		gradoAcademico = null;
+                    	}
+                    	
+                    	Docente newDocente = Docente.create(rut, nombreCompleto, gender, prestamo, profesion, gradoAcademico);
+                    	if(newDocente != null) {
+                    		System.out.println("¡Docente registrado exitosamente!");
+                    		System.out.println(newDocente.toString());
+                    	} else {
+                    		System.out.println("El docente ya existe. No se agregaron nuevos docentes.");
+                    	}
                 	}
                 	
                 	break;
                 
                 case 6:
-                	System.out.println("========== Editar usuario ==========\n");                	
+                	System.out.println("========== Editar usuario ==========\n");
                 	break;
                 	
                 case 8:

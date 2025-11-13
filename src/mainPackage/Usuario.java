@@ -3,23 +3,21 @@ package mainPackage;
 import java.util.*;
 
 public class Usuario {
-	private String rut;
-	private String nombreCompleto;
-	private Gender genero;
-	private String carrera;
-	private String prestamo;
+	protected String rut;
+	protected String nombreCompleto;
+	protected Gender genero;
+	protected String prestamo;
 
-	protected Usuario(String rut, String nombreCompleto, Gender genero, String carrera, String prestamo) {
+	protected Usuario(String rut, String nombreCompleto, Gender genero, String prestamo) {
 		this.rut = rut;
 		this.nombreCompleto = nombreCompleto;
 		this.genero = genero;
-		this.carrera = carrera;
 		this.prestamo = prestamo;
 	}
 
 	/* Función que devuelve una instancia de la clase Usuario si los parámetros son correctos, si no, devuelve null */
-	public static Usuario create(String rut, String nombreCompleto, Gender genero, String carrera, String prestamo) {
-		Usuario user = new Usuario(rut, nombreCompleto, genero, carrera, prestamo);
+	public static Usuario create(String rut, String nombreCompleto, Gender genero, String prestamo) {
+		Usuario user = new Usuario(rut, nombreCompleto, genero, prestamo);
 		
 		if(!Utils.alreadyExists(File.USUARIOS, user.rut)) {
 			String userAsString = user.toString();
@@ -33,7 +31,7 @@ public class Usuario {
 	
 	public static void edit(String rut, String nombreCompleto, Gender genero, String carrera, String prestamo) {
 		if(isValidRut(rut) && isValidLoan(prestamo)) {
-			Usuario newUser = new Usuario(rut, nombreCompleto, genero, carrera, prestamo);
+			Usuario newUser = new Usuario(rut, nombreCompleto, genero, prestamo);
 			Utils.deleteRecordById(File.USUARIOS, rut);
 			Utils.saveToFile(File.USUARIOS, newUser.toString());
 		}
@@ -73,7 +71,7 @@ public class Usuario {
 	
     @Override
     public String toString() {
-        return rut + ";" + nombreCompleto + ";" + genero + ";" + carrera + ";" + prestamo;
+        return rut + ";" + nombreCompleto + ";" + genero + ";" + prestamo;
     }
 	
     private static ArrayList<Usuario> fromText(String text) {
@@ -86,7 +84,7 @@ public class Usuario {
             }
             String[] datos = line.split("\\|");
             if (datos.length == 4) {
-                Usuario user = new Usuario(datos[0], datos[1], Gender.valueOf(datos[2]), datos[3], datos[4]);
+                Usuario user = new Usuario(datos[0], datos[1], Gender.valueOf(datos[2]), datos[3]);
                 list.add(user);
             }
         }
