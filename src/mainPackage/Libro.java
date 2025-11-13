@@ -92,7 +92,7 @@ public class Libro {
                 bw.newLine();
                 bw.close();
                 write.close();
-                System.out.println("Libro agregado correctamente (ISBN: " + isbn + ")");
+                System.out.println("- Libro agregado correctamente (ISBN: " + isbn + ")");
             }
 
         } catch (IOException e) {
@@ -136,7 +136,7 @@ public class Libro {
             bw.close();
 
             if (encontrado)
-                System.out.println("Libro eliminado correctamente ISBN: " + isbn);
+                System.out.println("- Libro eliminado correctamente ISBN: " + isbn);
             else
                 System.out.println("Error. No se encontró un libro con ISBN: " + isbn);
 

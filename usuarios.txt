@@ -1,2 +1,2 @@
-Moises;12345678-9;M;Informatica;999999
-Juan;11111111-k;M;Derecho;999999
+12345678-9;Benjamin Caceres;F;N;Informatica;ESTUDIANTE;888888
+11111111-k;Matias Caceres;F;N;Trabajador Social;DOCTOR;DOCENTE

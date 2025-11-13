@@ -15,7 +15,8 @@ public class Principal {
             System.out.println("  2. Eliminar libro");
             System.out.println("  3. Solicitar préstamo de libro");
             System.out.println("  4. Actualizar cantidad disponible");
-            System.out.println("  5. Salir\n");
+            System.out.println("  5. Ingresar devolución");
+            System.out.println("  6. Salir\n");
             System.out.print("Seleccione una opción: ");
 
             while (!sc.hasNextInt()) {
@@ -59,6 +60,10 @@ public class Principal {
                     break;
 
                 case 5:
+                    Devolucion.realizarDevolucion(sc);
+                    break;
+
+                case 6:
                     System.out.println("Saliendo del sistema...");
                     break;
 
@@ -66,7 +71,7 @@ public class Principal {
                     System.out.println("Opción no válida. Intente nuevamente.");
             }
 
-        } while (opcion != 5);
+        } while (opcion != 6);
 
         sc.close();
     }

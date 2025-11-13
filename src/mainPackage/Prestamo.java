@@ -50,9 +50,8 @@ public class Prestamo implements Actualiza {
             return;
         }
 
-        // Determinar tipo de usuario
         String tipo = obtenerTipoUsuario(rut);
-        int maxDias = tipo.equalsIgnoreCase("docente") ? 20 : 10;
+        int maxDias = tipo.equalsIgnoreCase("DOCENTE") ? 20 : 10;
 
         System.out.print("Ingrese cantidad de días (máx " + maxDias + "): ");
         int dias = sc.nextInt();
@@ -60,14 +59,12 @@ public class Prestamo implements Actualiza {
 
         Date fechaActual = new Date();
 
-        // Crear préstamo
         Prestamo p = new Prestamo(isbn, rut, fechaActual, dias);
 
-        // Actualizar archivos .txt
         p.actualizaLibro(isbn);
         p.actualizaUsuario(rut);
+        p.registrarPrestamoArchivo(p);
 
-        // Generar tarjeta
         p.generaTarjeta();
     }
 
@@ -104,7 +101,7 @@ public class Prestamo implements Actualiza {
             String linea;
             while ((linea = br.readLine()) != null) {
                 String[] partes = linea.split(";");
-                if (partes.length >= 2 && partes[1].equalsIgnoreCase(rut)) return true;
+                if (partes.length >= 2 && partes[0].equalsIgnoreCase(rut)) return true;
             }
         } catch (IOException e) {
             System.out.println("Error al leer usuarios: " + e.getMessage());
@@ -117,8 +114,11 @@ public class Prestamo implements Actualiza {
             String linea;
             while ((linea = br.readLine()) != null) {
                 String[] partes = linea.split(";");
-                if (partes[1].equalsIgnoreCase(rut)) {
-                    return partes[4].equals("0") || partes[4].isEmpty();
+                if (partes[0].equalsIgnoreCase(rut)) {
+
+                    if (Arrays.asList("ESTUDIANTE", "DOCENTE").contains(partes[partes.length - 1].toUpperCase())) {
+                        return true;
+                    }
                 }
             }
         } catch (IOException e) {
@@ -132,14 +132,18 @@ public class Prestamo implements Actualiza {
             String linea;
             while ((linea = br.readLine()) != null) {
                 String[] partes = linea.split(";");
-                if (partes[1].equalsIgnoreCase(rut)) {
-                    return partes[3]; // carrera (puedes adaptar si guardas el tipo)
+                if (partes[0].equalsIgnoreCase(rut)) {
+                    for (String parte : partes) {
+                        if (parte.equalsIgnoreCase("ESTUDIANTE") || parte.equalsIgnoreCase("DOCENTE")) {
+                            return parte;
+                        }
+                    }
                 }
             }
         } catch (IOException e) {
             System.out.println("Error al leer tipo usuario: " + e.getMessage());
         }
-        return "estudiante"; // valor por defecto
+        return "ESTUDIANTE";
     }
 
     @Override
@@ -173,7 +177,7 @@ public class Prestamo implements Actualiza {
                     bw.write(l);
                     bw.newLine();
                 }
-                System.out.println("Libro actualizado correctamente.");
+                System.out.println("- Libro actualizado correctamente.");
             } catch (IOException e) {
                 System.out.println("Error al actualizar archivo: " + e.getMessage());
                 return false;
@@ -187,23 +191,24 @@ public class Prestamo implements Actualiza {
         final String fileName = "usuarios.txt";
         List<String> lineas = new ArrayList<>();
         boolean encontrado = false;
-        System.out.println("Aqui vamos");
+
         try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
             String linea;
             while ((linea = br.readLine()) != null) {
                 String[] partes = linea.split(";");
 
-                if (partes.length == 5 && partes[1].equalsIgnoreCase(rut)) {
+                if (
+                        Arrays.asList("ESTUDIANTE", "DOCENTE").contains(partes[partes.length - 1].toUpperCase())
+                                &&
+                                partes[0].equalsIgnoreCase(rut)
+                ) {
                     encontrado = true;
 
-                    if (partes[4].equals("0")) {
-                        partes[4] = this.isbn.toString();
-                        System.out.println("Usuario actualizado con nuevo préstamo (ISBN: " + this.isbn + ").");
-                    } else {
-                        System.out.println("El usuario ya tiene un préstamo activo con ISBN: " + partes[4]);
-                    }
-
-                    linea = String.join(";", partes);
+                    linea = String.join(";", partes) + ";" + this.isbn;
+                    System.out.println("- Usuario actualizado con nuevo préstamo (ISBN: " + this.isbn + ").");
+                }
+                else {
+                    System.out.println("El usuario ya tiene un préstamo activo con ISBN: " + partes[partes.length - 1]);
                 }
                 lineas.add(linea);
             }
@@ -223,10 +228,30 @@ public class Prestamo implements Actualiza {
                 return false;
             }
         } else {
-            System.out.println("Usuario no encontrado en el archivo.");
+            System.out.println("Usuario no encontrado en el archivo." + lineas);
         }
 
         return encontrado;
+    }
+
+    private void registrarPrestamoArchivo(Prestamo p) {
+        final String fileName = "prestamos.txt";
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(p.getFechaPrestamo());
+        cal.add(Calendar.DAY_OF_MONTH, p.getDiasPrestamo());
+        String fechaDevolucion = sdf.format(cal.getTime());
+
+        String linea = p.getIsbn() + ";" + p.getRut() + ";" +
+                sdf.format(p.getFechaPrestamo()) + ";" + fechaDevolucion;
+
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(fileName, true))) {
+            bw.write(linea);
+            bw.newLine();
+        } catch (IOException e) {
+            System.out.println("Error al registrar préstamo: " + e.getMessage());
+        }
     }
 
     public void generaTarjeta() {
@@ -238,5 +263,21 @@ public class Prestamo implements Actualiza {
         System.out.println("| Fecha entrega:   " + sdf.format(entrega));
         System.out.println("| Días préstamo:   " + dias);
         System.out.println("|_______________________________|");
+    }
+
+    public int getIsbn() {
+        return isbn;
+    }
+
+    public String getRut() {
+        return rut;
+    }
+
+    public Date getFechaPrestamo() {
+        return solicitud;
+    }
+
+    public int getDiasPrestamo() {
+        return dias;
     }
 }
