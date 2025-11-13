@@ -6,9 +6,9 @@ public class Usuario {
 	protected String rut;
 	protected String nombreCompleto;
 	protected Gender genero;
-	protected String prestamo;
+	protected Integer prestamo;
 
-	protected Usuario(String rut, String nombreCompleto, Gender genero, String prestamo) {
+	protected Usuario(String rut, String nombreCompleto, Gender genero, Integer prestamo) {
 		this.rut = rut;
 		this.nombreCompleto = nombreCompleto;
 		this.genero = genero;

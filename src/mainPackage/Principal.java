@@ -125,7 +125,7 @@ public class Principal {
                     		carrera = sc.nextLine();
                     	}
                     	
-                    	Estudiante newEstudiante = Estudiante.create(rut, nombreCompleto, gender, isbn, carrera);
+                    	Estudiante newEstudiante = Estudiante.create(rut, nombreCompleto, gender, Integer.parseInt(isbn), carrera);
                     	
                     	if(newEstudiante != null) {
                     		System.out.println("¡Estudiante creado exitosamente!");
@@ -159,7 +159,7 @@ public class Principal {
                     		gradoAcademico = null;
                     	}
                     	
-                    	Docente newDocente = Docente.create(rut, nombreCompleto, gender, isbn, profesion, gradoAcademico);
+                    	Docente newDocente = Docente.create(rut, nombreCompleto, gender, Integer.parseInt(isbn), profesion, gradoAcademico);
                     	if(newDocente != null) {
                     		System.out.println("¡Docente registrado exitosamente!");
                     		System.out.println(newDocente.toString());
@@ -250,7 +250,7 @@ public class Principal {
                     		grado = null;
                     	}
                     	
-                    	Docente newDocente = Docente.create(rutEditar, nombreEditar, generoEditado, isbnEditar, profesionEditar, grado);
+                    	Docente newDocente = Docente.create(rutEditar, nombreEditar, generoEditado, Integer.parseInt(isbnEditar), profesionEditar, grado);
                     	if(newDocente != null) {
                     		System.out.println("¡Docente registrado exitosamente!");
                     		System.out.println(newDocente.toString());
@@ -266,7 +266,7 @@ public class Principal {
                         	carreraEditar = sc.nextLine();
                     	}
                     	
-                    	Estudiante newEstudiante = Estudiante.create(rutEditar, nombreEditar, generoEditado, isbnEditar, carreraEditar);
+                    	Estudiante newEstudiante = Estudiante.create(rutEditar, nombreEditar, generoEditado, Integer.parseInt(isbnEditar), carreraEditar);
                     	if(newEstudiante != null) {
                     		System.out.println("¡Estudiante creado exitosamente!");
                     		System.out.println(newEstudiante.toString());

@@ -6,13 +6,13 @@ public class Docente extends Usuario {
 	private String profesion;
 	private AcademicGrade grado;
 
-	protected Docente(String rut, String nombreCompleto, Gender genero, String prestamo, String profesion, AcademicGrade grado) {
+	protected Docente(String rut, String nombreCompleto, Gender genero, Integer prestamo, String profesion, AcademicGrade grado) {
 		super(rut, nombreCompleto, genero, prestamo);
 		this.profesion = profesion;
 		this.grado = grado;
 	}
 	
-	public static Docente create(String rut, String nombreCompleto, Gender genero, String prestamo, String profesion, AcademicGrade grado) {
+	public static Docente create(String rut, String nombreCompleto, Gender genero, Integer prestamo, String profesion, AcademicGrade grado) {
 		Docente docente = new Docente(rut, nombreCompleto, genero, prestamo, profesion, grado);
 		
 		if(!Utils.alreadyExists(File.USUARIOS, docente.rut)) {
@@ -59,7 +59,7 @@ public class Docente extends Usuario {
                     String rut = parts[0];
                     String nombre = parts[1];
                     Gender genero = Gender.valueOf(parts[2]);
-                    String prestamo = parts[3];
+                    Integer prestamo = Integer.parseInt(parts[3]);
                     String profesion = parts[4];
                     AcademicGrade grado = AcademicGrade.valueOf(parts[5]);
 

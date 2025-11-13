@@ -5,12 +5,12 @@ import java.util.ArrayList;
 public class Estudiante extends Usuario {
 	private String carrera;
 
-	protected Estudiante(String rut, String nombreCompleto, Gender genero, String prestamo, String carrera) {
+	protected Estudiante(String rut, String nombreCompleto, Gender genero, Integer prestamo, String carrera) {
 		super(rut, nombreCompleto, genero, prestamo);
 		this.carrera = carrera;
 	}
 	
-	public static Estudiante create(String rut, String nombreCompleto, Gender genero, String prestamo, String carrera) {
+	public static Estudiante create(String rut, String nombreCompleto, Gender genero, Integer prestamo, String carrera) {
 		Estudiante estudiante = new Estudiante(rut, nombreCompleto, genero, prestamo, carrera);
 		
 		if(!Utils.alreadyExists(File.USUARIOS, estudiante.rut)) {
@@ -54,7 +54,7 @@ public class Estudiante extends Usuario {
                     String rut = parts[0];
                     String nombre = parts[1];
                     Gender genero = Gender.valueOf(parts[2]);
-                    String prestamo = parts[3];
+                    Integer prestamo = Integer.parseInt(parts[3]);
                     String carrera = parts[4];
 
                     Estudiante e = new Estudiante(rut, nombre, genero, prestamo, carrera);
