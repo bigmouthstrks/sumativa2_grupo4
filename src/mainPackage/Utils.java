@@ -12,8 +12,6 @@ public class Utils {
 
 	        writer.newLine();
 	        writer.write(content);
-
-	        System.out.println("✅ Contenido agregado a: " + filePath);
 	    } catch (IOException e) {
 	        System.out.println("❌ Error al guardar archivo: " + e.getMessage());
 	    }
@@ -28,7 +26,6 @@ public class Utils {
             while ((line = reader.readLine()) != null) {
                 content.append(line).append("\n");
             }
-            System.out.println("✅ Archivo leído: " + filePath);
         } catch (IOException e) {
             System.out.println("❌ Error al leer archivo: " + e.getMessage());
         }
@@ -60,7 +57,6 @@ public class Utils {
                 new OutputStreamWriter(new FileOutputStream(filePath, false), StandardCharsets.UTF_8))) {
 
             writer.write(newContent.toString().trim());
-            System.out.println("🗑️ Registro eliminado de: " + filePath);
 
         } catch (IOException e) {
             System.out.println("❌ Error al escribir archivo: " + e.getMessage());
@@ -98,7 +94,6 @@ public class Utils {
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(";");
                 if (parts.length > 0 && parts[0].equals(id)) {
-                    System.out.println("✅ Registro encontrado: " + id);
                     return line.trim();
                 }
             }

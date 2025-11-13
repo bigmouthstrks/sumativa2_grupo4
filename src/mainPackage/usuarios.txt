@@ -1,3 +1,2 @@
 
-19617271-8;Benjamin Caceres;F;N;Informatica;ESTUDIANTE
-17996521-6;Matias Caceres;F;N;Trabajador Social;DOCTOR;DOCENTE
+17996521-6;Jaime Bustos;F;0;Tecnico Mecanica Automotriz;MAGISTER;DOCENTE

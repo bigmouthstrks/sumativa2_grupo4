@@ -9,7 +9,6 @@ public enum File {
 		this.path = path;
 	}
 	
-	// getter
     public String getPath() {
         return path;
     }

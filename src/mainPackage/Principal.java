@@ -125,7 +125,7 @@ public class Principal {
                     		carrera = sc.nextLine();
                     	}
                     	
-                    	Estudiante newEstudiante = Estudiante.create(rut, nombreCompleto, gender, prestamo, carrera);
+                    	Estudiante newEstudiante = Estudiante.create(rut, nombreCompleto, gender, isbn, carrera);
                     	
                     	if(newEstudiante != null) {
                     		System.out.println("¡Estudiante creado exitosamente!");
@@ -159,7 +159,7 @@ public class Principal {
                     		gradoAcademico = null;
                     	}
                     	
-                    	Docente newDocente = Docente.create(rut, nombreCompleto, gender, prestamo, profesion, gradoAcademico);
+                    	Docente newDocente = Docente.create(rut, nombreCompleto, gender, isbn, profesion, gradoAcademico);
                     	if(newDocente != null) {
                     		System.out.println("¡Docente registrado exitosamente!");
                     		System.out.println(newDocente.toString());
@@ -172,8 +172,126 @@ public class Principal {
                 
                 case 6:
                 	System.out.println("========== Editar usuario ==========\n");
+                	System.out.println("Ingrese el RUT usuario a editar: ");
+                	String rutEditar = sc.nextLine();
+                	while(!Usuario.isValidRut(rutEditar)) {
+                		System.out.println("Por favor ingrese un rut válido en formato '12345678-9' (sin puntos y con guión).");
+                    	System.out.println("Ingrese el RUT usuario a editar: ");
+                    	rutEditar = sc.nextLine();
+                	}
+                	                	
+                	String userType = Usuario.getUserType(rutEditar);
+                	
+                	if(userType.equals("NN")) {
+                		System.out.println("No se encontró el usuario.");
+                		break;
+                	}
+                	
+                	String userRecord = Usuario.getUserRecord(rutEditar);
+                	
+                	System.out.println("Editando el registro: " + userRecord);
+                	
+                	System.out.println("NOMBRE COMPLETO: ");
+                	String nombreEditar = sc.nextLine();
+                	while(nombreEditar.isEmpty()) {
+                		System.out.println("NOMBRE COMPLETO: ");
+                	}
+                	
+                	System.out.println("GENERO: ");
+                	String generoEditar = sc.nextLine().toUpperCase();
+                	while(!generoEditar.equals("M") && !generoEditar.equals("F")) {
+                		System.out.println("GENERO: ");
+                    	generoEditar = sc.nextLine().toUpperCase();
+                	}
+                	
+                	System.out.println("¿TIENE PRESTAMO? ('S'/'N'): ");
+                	String prestamoEditar = sc.nextLine().toUpperCase();
+                	while(prestamoEditar.isEmpty()) {
+                		System.out.println("PRESTAMO: ");
+                    	prestamoEditar = sc.nextLine().toUpperCase();
+                	}
+                	
+                	String isbnEditar;
+                	if(prestamoEditar.equals("S")) {
+                		System.out.println("Ingrese ISBN del libro prestado: ");
+                		isbnEditar = sc.nextLine().toUpperCase();
+                		while(isbnEditar.isEmpty()) {
+                			System.out.println("Ingrese un ISBN válido: ");
+                			isbnEditar = sc.nextLine().toUpperCase();
+                		}
+                	} else {
+                		isbnEditar = "0";
+                	}
+                	
+                	Usuario.delete(rutEditar);
+                	Gender generoEditado = generoEditar == "M" ? Gender.M : Gender.F;
+                	
+                	if(userType.equals("D")) {
+                		System.out.println("PROFESION: ");
+                    	String profesionEditar = sc.nextLine();
+                    	while(profesionEditar.isEmpty()) {
+                    		System.out.println("PROFESION: ");
+                        	profesionEditar = sc.nextLine();
+                    	}
+                    	
+                    	System.out.println("GRADO ACADEMICO ('D'/'M'): ");
+                    	String gradoAcademicoEditar = sc.nextLine().toUpperCase();
+                    	while(!gradoAcademicoEditar.equals("D") && !gradoAcademicoEditar.equals("M")) {
+                    		System.out.println("GRADO ACADEMICO ('D'/'M'): ");
+                    		gradoAcademicoEditar = sc.nextLine().toUpperCase();
+                    	}
+                    	
+                    	AcademicGrade grado = null;
+                    	if (gradoAcademicoEditar.equals("D")) {
+                    		grado = AcademicGrade.DOCTOR;
+                    	} else if (gradoAcademicoEditar.equals("M")) {
+                    		grado = AcademicGrade.MAGISTER;
+                    	} else {
+                    		grado = null;
+                    	}
+                    	
+                    	Docente newDocente = Docente.create(rutEditar, nombreEditar, generoEditado, isbnEditar, profesionEditar, grado);
+                    	if(newDocente != null) {
+                    		System.out.println("¡Docente registrado exitosamente!");
+                    		System.out.println(newDocente.toString());
+                    	} else {
+                    		System.out.println("El docente ya existe. No se agregaron nuevos docentes.");
+                    	}
+                    	
+                	} else {
+                		System.out.println("CARRERA: ");
+                    	String carreraEditar = sc.nextLine();
+                    	while(carreraEditar.isEmpty()) {
+                    		System.out.println("NOMBRE COMPLETO: ");
+                        	carreraEditar = sc.nextLine();
+                    	}
+                    	
+                    	Estudiante newEstudiante = Estudiante.create(rutEditar, nombreEditar, generoEditado, isbnEditar, carreraEditar);
+                    	if(newEstudiante != null) {
+                    		System.out.println("¡Estudiante creado exitosamente!");
+                    		System.out.println(newEstudiante.toString());
+                    	} else {
+                    		System.out.println("El estudiante ya existe. No se agregaron nuevos estudiantes.");
+                    	}
+                	}
+                	
                 	break;
                 	
+                case 7:
+                	System.out.println("========== Eliminar usuario ==========\n");
+                	System.out.println("Ingrese el RUT usuario a eliminar: ");
+                	String rutEliminar = sc.nextLine();
+                	while(!Usuario.isValidRut(rutEliminar)) {
+                		System.out.println("Por favor ingrese un rut válido en formato '12345678-9' (sin puntos y con guión).");
+                    	System.out.println("Ingrese el RUT usuario a eliminar: ");
+                    	rutEliminar = sc.nextLine();
+                	}
+                	
+                	Usuario.delete(rutEliminar);
+                	
+                	System.out.println("Si el usuario existía, fue eliminado. De lo contrario, no se hicieron cambios.");
+                	
+                	break;
                 case 8:
                     System.out.println("Saliendo del sistema...");
                     break;
