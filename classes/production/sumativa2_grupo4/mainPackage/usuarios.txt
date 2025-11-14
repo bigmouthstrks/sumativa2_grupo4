@@ -1,3 +1,2 @@
 17996521-6;Jaime Bustos;F;0;Tecnico Mecanica Automotriz;MAGISTER;DOCENTE
 26504836-6;Moises Marquina;F;0;Derecho;ESTUDIANTE;111111
-25843915-5;Marta;F;0;Odontología;ESTUDIANTE

@@ -14,10 +14,10 @@ public class Principal {
             System.out.println("  1. Crear libro");
             System.out.println("  2. Eliminar libro");
             System.out.println("  3. Solicitar préstamo de libro");
-            System.out.println("  4. Actualizar cantidad disponible");
-            System.out.println("  5. Crear Usuario");
-            System.out.println("  6. Editar Usuario");
-            System.out.println("  7. Eliminar Usuario");
+            System.out.println("  4. Crear Usuario");
+            System.out.println("  5. Editar Usuario");
+            System.out.println("  6. Eliminar Usuario");
+            System.out.println("  7. Ingrese devolución");
             System.out.println("  8. Salir\n");
             System.out.print("Seleccione una opción: ");
 
@@ -31,37 +31,38 @@ public class Principal {
 
             switch (opcion) {
                 case 1:
-//                    System.out.println("Ingrese ISBN:");
-//                    int isbn = sc.nextInt(); sc.nextLine();
-//                    System.out.println("Ingrese título:");
-//                    String titulo = sc.nextLine();
-//                    System.out.println("Ingrese autor:");
-//                    String autor = sc.nextLine();
-//                    System.out.println("Ingrese cantidad:");
-//                    int cantidad = sc.nextInt(); sc.nextLine();
-//                    System.out.println("Ingrese disponibles:");
-//                    int disponibles = sc.nextInt(); sc.nextLine();
-//                    System.out.println("Ingrese nombre de imagen:");
-//                    String imagen = sc.nextLine();
+                    System.out.println("Ingrese ISBN:");
+                    int isbn = sc.nextInt(); sc.nextLine();
+                    System.out.println("Ingrese título:");
+                    String titulo = sc.nextLine();
+                    System.out.println("Ingrese autor:");
+                    String autor = sc.nextLine();
+                    System.out.println("Ingrese cantidad:");
+                    int cantidad = sc.nextInt(); sc.nextLine();
+                    System.out.println("Ingrese disponibles:");
+                    int disponibles = sc.nextInt(); sc.nextLine();
+                    System.out.println("Ingrese nombre de imagen:");
+                    String imagen = sc.nextLine();
 
-//                    Libro.crearLibro(isbn, titulo, autor, cantidad, disponibles, imagen);
+                    Libro.crearLibro(isbn, titulo, autor, cantidad, disponibles, imagen);
                     break;
 
                 case 2:
-//                    System.out.println("Ingrese ISBN del libro a eliminar:");
-//                    int isbnEliminar = sc.nextInt();
-//                    Libro.eliminarLibro(isbnEliminar);
+                    System.out.println("Ingrese ISBN del libro a eliminar:");
+                    int isbnEliminar = sc.nextInt();
+                    Libro.eliminarLibro(isbnEliminar);
                     break;
 
                 case 3:
-//                    Prestamo.realizarPrestamo();
+                    try {
+                        Prestamo.realizarPrestamo();
+
+                    } catch (Exception e) {
+                        System.out.println("\nERROR: Intentalo de nuevo.");
+                    }
                     break;
 
                 case 4:
-                    System.out.println("Funcionalidad 4 pendiente...");
-                    break;
-                    
-                case 5:
                 	System.out.println("========== Crear usuario ==========\n");
                 	System.out.println("Ingrese su rut: ");
                 	String rut = sc.nextLine();
@@ -95,7 +96,8 @@ public class Principal {
                 		prestamo = sc.nextLine().toUpperCase();
                 	}
                 	                	
-                	String isbn;
+                	/*
+                    String isbn;
                 	if(prestamo.equals("S")) {
                 		System.out.println("Ingrese ISBN del libro prestado: ");
                 		isbn = sc.nextLine().toUpperCase();
@@ -106,6 +108,20 @@ public class Principal {
                 	} else {
                 		isbn = "0";
                 	}
+                	 */
+                    int isbn_;
+
+                    if(prestamo.equals("S")) {
+                        System.out.println("Ingrese ISBN del libro prestado: ");
+                        String isbnString = sc.nextLine().trim();
+                        while(isbnString.isEmpty()) {
+                            System.out.println("Ingrese un ISBN válido: ");
+                            isbnString = sc.nextLine().trim();
+                        }
+                        isbn_ = Integer.parseInt(isbnString);
+                    } else {
+                        isbn_ = 0;
+                    }
                 	
                 	System.out.println("Tipo de usuario (ingrese 'D' para Docente y 'E' para Estudiante)");
                 	String tipo = sc.nextLine().toUpperCase();
@@ -125,8 +141,9 @@ public class Principal {
                     		carrera = sc.nextLine();
                     	}
                     	
-                    	Estudiante newEstudiante = Estudiante.create(rut, nombreCompleto, gender, Integer.parseInt(isbn), carrera);
-                    	
+                    	//Estudiante newEstudiante = Estudiante.create(rut, nombreCompleto, gender, Integer.parseInt(isbn), carrera);
+                    	Estudiante newEstudiante = Estudiante.create(rut, nombreCompleto, gender, isbn_, carrera);
+
                     	if(newEstudiante != null) {
                     		System.out.println("¡Estudiante creado exitosamente!");
                     		System.out.println(newEstudiante.toString());
@@ -159,7 +176,8 @@ public class Principal {
                     		gradoAcademico = null;
                     	}
                     	
-                    	Docente newDocente = Docente.create(rut, nombreCompleto, gender, Integer.parseInt(isbn), profesion, gradoAcademico);
+                    	//Docente newDocente = Docente.create(rut, nombreCompleto, gender, Integer.parseInt(isbn), profesion, gradoAcademico);
+                    	Docente newDocente = Docente.create(rut, nombreCompleto, gender, isbn_, profesion, gradoAcademico);
                     	if(newDocente != null) {
                     		System.out.println("¡Docente registrado exitosamente!");
                     		System.out.println(newDocente.toString());
@@ -170,7 +188,7 @@ public class Principal {
                 	
                 	break;
                 
-                case 6:
+                case 5:
                 	System.out.println("========== Editar usuario ==========\n");
                 	System.out.println("Ingrese el RUT usuario a editar: ");
                 	String rutEditar = sc.nextLine();
@@ -277,7 +295,7 @@ public class Principal {
                 	
                 	break;
                 	
-                case 7:
+                case 6:
                 	System.out.println("========== Eliminar usuario ==========\n");
                 	System.out.println("Ingrese el RUT usuario a eliminar: ");
                 	String rutEliminar = sc.nextLine();
@@ -292,6 +310,17 @@ public class Principal {
                 	System.out.println("Si el usuario existía, fue eliminado. De lo contrario, no se hicieron cambios.");
                 	
                 	break;
+
+
+                case 7:
+                    try {
+                        Devolucion.realizarDevolucion(sc);
+
+                    } catch (Exception e) {
+                        System.out.println("\nERROR: Intentalo de nuevo.");
+                    }
+                    break;
+
                 case 8:
                     System.out.println("Saliendo del sistema...");
                     break;
@@ -300,7 +329,7 @@ public class Principal {
                     System.out.println("Opción no válida. Intente nuevamente.");
             }
 
-        } while (opcion != 8);
+        } while (opcion != 9);
 
         sc.close();
     }

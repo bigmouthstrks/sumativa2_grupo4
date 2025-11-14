@@ -1,0 +1,3 @@
+999999;Mi primer libro;Moises;20;12;primero.img
+111111;Segundo Libro;Maria;40;16;segundo.img
+222222;Dientes perfectos;Jhon F. Kennedy;50;36;cuek.img
