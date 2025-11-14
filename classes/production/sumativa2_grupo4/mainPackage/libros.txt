@@ -1,2 +1,0 @@
-999999;Mi primer libro;Moises;20;12;primero.img
-111111;Segundo Libro;Maria;40;16;segundo.img
